@@ -1,0 +1,14 @@
+Pixel ORPG
+Copyright (c) 2026 dosmithy. All rights reserved.
+
+Pixel ORPG is free to play. By installing it, you agree to these terms.
+
+1. No warranty. The game comes "as is", without any warranty. The author is not liable for any loss or damage that comes from using it.
+
+2. An online game. This app opens the game at https://pixel-orpg.online, so you need an internet connection to play. The game can change at any time, go offline for a while, or close for good.
+
+3. Your data. Your account and your Heroes are kept on the game's server. The app keeps your login and its window size on this computer.
+
+4. Sharing. You may give this installer to anyone, as long as you don't change it.
+
+5. Other software. The app is built on Electron and Chromium. Their licenses are in the folder you install the game to, in LICENSE.electron.txt and LICENSES.chromium.html.

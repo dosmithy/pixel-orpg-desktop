@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'" />
+    <title>Pixel ORPG</title>
+    <style>
+      html, body { margin: 0; height: 100%; background: #0c0d12; color: #e8e2c8; font: 18px/1.5 system-ui, sans-serif; }
+      main { height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; text-align: center; padding: 0 16px; }
+      h1 { margin: 0; font-size: 28px; }
+      p { margin: 0; color: #a9a48e; }
+      button { margin-top: 12px; font: inherit; color: #e8e2c8; background: #1d2a2a; border: 2px solid #4a8a86; padding: 6px 24px; cursor: pointer; }
+      button:hover { background: #26393a; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Can't reach Pixel ORPG</h1>
+      <p>Check your internet connection. If it's working, the server may be down for a moment.</p>
+      <button id="retry" autofocus>Try again</button>
+    </main>
+    <script>
+      document.getElementById('retry').onclick = () => { location.href = 'https://pixel-orpg.online/'; };
+    </script>
+  </body>
+</html>

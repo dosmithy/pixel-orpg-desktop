@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Download Pixel ORPG</title>
+    <meta name="description" content="Pixel ORPG for Windows, macOS and Linux." />
+    <link rel="icon" type="image/png" href="logo.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #0c0d12;
+        --panel: #1d2a2a;
+        --edge: #4a8a86;
+        --text: #e8e2c8;
+        --muted: #a9a48e;
+        --accent: #e0b04a;
+      }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; background: var(--bg); color: var(--text); }
+      body { font: 20px/1.45 'Patrick Hand', system-ui, sans-serif; }
+      main { max-width: 720px; margin: 0 auto; padding: 40px 16px 64px; }
+      header { text-align: center; }
+      header img { width: 160px; height: 160px; image-rendering: pixelated; }
+      h1 { margin: 4px 0 0; font-size: 44px; font-weight: normal; }
+      h2 { margin: 0 0 8px; font-size: 26px; font-weight: normal; }
+      p { margin: 0 0 8px; }
+      .muted { color: var(--muted); }
+      a { color: var(--accent); }
+      .primary { margin: 28px 0 8px; text-align: center; }
+      .button {
+        display: inline-block; padding: 10px 28px; font-size: 24px; text-decoration: none;
+        color: var(--text); background: var(--panel); border: 2px solid var(--edge);
+      }
+      .button:hover { background: #26393a; }
+      .others { text-align: center; }
+      .others a { margin: 0 8px; }
+      section { margin-top: 32px; padding: 16px 20px; background: var(--panel); border: 2px solid var(--edge); }
+      section.here { border-color: var(--accent); }
+      ol { margin: 0; padding-left: 24px; }
+      li { margin-bottom: 4px; }
+      code {
+        font: 15px/1.4 ui-monospace, Consolas, monospace; background: var(--bg); padding: 2px 6px;
+        overflow-wrap: anywhere;
+      }
+      pre { margin: 6px 0 10px; padding: 8px 10px; background: var(--bg); overflow-x: auto; }
+      pre code { padding: 0; }
+      footer { margin-top: 40px; text-align: center; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <img src="logo.png" alt="" />
+        <h1>Pixel ORPG</h1>
+        <p class="muted">The game in a window of its own, for Windows, macOS and Linux.</p>
+      </header>
+
+      <div class="primary"><a class="button" id="get" href="#all">Download</a></div>
+      <p class="others" id="all">
+        <a href="https://github.com/dosmithy/pixel-orpg-desktop/releases/latest/download/PixelORPG-win.exe">Windows</a>
+        <a href="https://github.com/dosmithy/pixel-orpg-desktop/releases/latest/download/PixelORPG-mac.dmg">macOS</a>
+        <a href="https://github.com/dosmithy/pixel-orpg-desktop/releases/latest/download/PixelORPG-linux.AppImage">Linux</a>
+      </p>
+      <p class="others muted">Or play the same game <a href="https://pixel-orpg.online">in your browser</a>.</p>
+
+      <section id="windows">
+        <h2>Windows</h2>
+        <ol>
+          <li>Open <code>PixelORPG-win.exe</code>. Your browser might warn you about the download first. Choose <b>Keep</b>.</li>
+          <li>Windows may show "Windows protected your PC". Click <b>More info</b>, then <b>Run anyway</b>.</li>
+          <li>Follow the installer. You can choose where to install the game, and it adds a shortcut to your desktop and the Start menu.</li>
+        </ol>
+      </section>
+
+      <section id="mac">
+        <h2>macOS</h2>
+        <p class="muted">Apple Silicon (M1 or later) only. On an Intel Mac, play in your browser.</p>
+        <ol>
+          <li>Open <code>PixelORPG-mac.dmg</code> and drag Pixel ORPG into Applications.</li>
+          <li>Open it once. macOS says it can't check the app, so click <b>Done</b>.</li>
+          <li>Go to <b>System Settings → Privacy &amp; Security</b>, scroll down, click <b>Open Anyway</b> and enter your password.</li>
+        </ol>
+        <p>If macOS says the app "is damaged", run this in Terminal and open it again:</p>
+        <pre><code>xattr -dr com.apple.quarantine "/Applications/Pixel ORPG.app"</code></pre>
+      </section>
+
+      <section id="linux">
+        <h2>Linux</h2>
+        <ol>
+          <li>Make the file runnable, then run it:
+            <pre><code>chmod +x PixelORPG-linux.AppImage
+./PixelORPG-linux.AppImage</code></pre>
+          </li>
+          <li>If it says FUSE is missing (Ubuntu 22.04 and later), install it:
+            <pre><code>sudo apt install libfuse2t64   # 24.04 and later
+sudo apt install libfuse2      # 22.04</code></pre>
+          </li>
+          <li>If it closes right away (Ubuntu 24.04 and later), run it like this instead:
+            <pre><code>./PixelORPG-linux.AppImage --no-sandbox</code></pre>
+          </li>
+        </ol>
+      </section>
+
+      <section>
+        <h2>Why the warnings?</h2>
+        <p>The app isn't signed, because signing costs money every year, so your computer can't tell who made it. All of its code is <a href="https://github.com/dosmithy/pixel-orpg-desktop">on GitHub</a> if you want to read it.</p>
+        <p>The app loads the game from pixel-orpg.online, so you always play the latest version. You'll need to log in once more in the app.</p>
+      </section>
+
+      <footer class="muted"><a href="https://pixel-orpg.online">pixel-orpg.online</a></footer>
+    </main>
+    <script>
+      // point the big button at this visitor's OS, and bring its steps to the top
+      (() => {
+        const base = 'https://github.com/dosmithy/pixel-orpg-desktop/releases/latest/download/';
+        const files = { windows: 'PixelORPG-win.exe', mac: 'PixelORPG-mac.dmg', linux: 'PixelORPG-linux.AppImage' };
+        const names = { windows: 'Windows', mac: 'macOS', linux: 'Linux' };
+        let platform = (navigator.userAgentData && navigator.userAgentData.platform) || navigator.platform || navigator.userAgent;
+        platform = platform.toLowerCase();
+        const os = platform.includes('win') ? 'windows' : platform.includes('mac') ? 'mac' : platform.includes('linux') && !platform.includes('android') ? 'linux' : null;
+        if (!os) return;
+        const get = document.getElementById('get');
+        get.href = base + files[os];
+        get.textContent = 'Download for ' + names[os];
+        const steps = document.getElementById(os);
+        steps.classList.add('here');
+        document.getElementById(os === 'windows' ? 'mac' : 'windows').before(steps);
+      })();
+    </script>
+  </body>
+</html>

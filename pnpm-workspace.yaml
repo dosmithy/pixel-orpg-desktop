@@ -1,0 +1,4 @@
+# electron's install downloads its own binary
+allowBuilds:
+  electron: true
+  electron-winstaller: false # Squirrel.Windows only; the NSIS installer needs none of it

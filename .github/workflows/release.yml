@@ -1,0 +1,53 @@
+# A `v*` tag builds the app on each OS and puts the three files on that tag's Release.
+# Each OS builds on its own runner (a dmg can only be made on macOS); one last job makes the
+# Release once all three are done, so no two jobs race to create it.
+name: release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - os: windows-latest
+            file: release/PixelORPG-win.exe
+          - os: macos-latest # Apple Silicon
+            file: release/PixelORPG-mac.dmg
+          - os: ubuntu-latest
+            file: release/PixelORPG-linux.AppImage
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm dist
+        env:
+          # no signing certificate: don't go looking for one in the keychain
+          CSC_IDENTITY_AUTO_DISCOVERY: false
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.os }}
+          path: ${{ matrix.file }}
+          if-no-files-found: error
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v5
+        with:
+          path: files
+          merge-multiple: true
+      - run: gh release create "$GITHUB_REF_NAME" files/* --repo "$GITHUB_REPOSITORY" --title "$GITHUB_REF_NAME" --generate-notes
+        env:
+          GH_TOKEN: ${{ github.token }}

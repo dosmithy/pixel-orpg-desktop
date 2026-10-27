@@ -1,0 +1,44 @@
+# One file per platform, named without a version, so the landing page's
+# releases/latest/download/<name> links never change.
+appId: online.pixel-orpg.desktop
+productName: Pixel ORPG
+artifactName: PixelORPG-${os}.${ext}
+directories:
+  output: release
+  buildResources: build
+files:
+  - dist/**
+  - src/offline.html
+  - package.json
+
+win:
+  target:
+    - target: nsis
+      arch: [x64]
+nsis:
+  # the usual wizard: install for me or for everyone, where, then a Finish page that can open the game
+  oneClick: false
+  perMachine: false
+  # the terms, shown first: the player clicks "I Agree" to go on
+  license: build/license.txt
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: Pixel ORPG
+  runAfterFinish: true
+  # the login and window size are kept on uninstall (a reinstall picks them up again)
+  deleteAppDataOnUninstall: false
+
+mac:
+  target:
+    - target: dmg
+      arch: [arm64]
+  category: public.app-category.games
+  # ad-hoc signed: unsigned, an Apple Silicon Mac won't run it at all; not notarized (no Apple account)
+  identity: "-"
+
+linux:
+  target:
+    - target: AppImage
+      arch: [x64]
+  category: Game
