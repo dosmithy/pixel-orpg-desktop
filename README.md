@@ -48,9 +48,4 @@ not notarized; the landing page walks players past each OS's warning.
 ## The landing page
 
 `site/` is deployed to GitHub Pages by `.github/workflows/pages.yml` on every push to `main` that
-touches it. One-time setup:
-
-1. Repo Settings → Pages → Source: **GitHub Actions**.
-2. Cloudflare DNS for pixel-orpg.online: a `CNAME` record `download` → `dosmithy.github.io`, DNS only
-   (grey cloud).
-3. Once the certificate is issued, Settings → Pages → **Enforce HTTPS**.
+touches it.
