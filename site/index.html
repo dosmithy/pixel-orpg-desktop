@@ -5,68 +5,107 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Download Pixel ORPG</title>
     <meta name="description" content="Pixel ORPG for Windows, macOS and Linux." />
+    <meta name="theme-color" content="#47aba9" />
     <link rel="icon" type="image/png" href="logo.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet" />
+    <!--
+      The game's own look: its home screen's sky and drifting clouds, the parchment scroll, the
+      ribbon and the big blue button. The art is the game's, loaded from pixel-orpg.online (art.js),
+      not kept here.
+    -->
     <style>
       :root {
-        --bg: #0c0d12;
-        --panel: #1d2a2a;
-        --edge: #4a8a86;
-        --text: #e8e2c8;
-        --muted: #a9a48e;
-        --accent: #e0b04a;
+        --sky: #47aba9;
+        --sky-edge: #3a8198;
+        --text: #ffffff;
+        --ink: #161c2e;
+        --gold: #fcf105;
+        --scroll-ink: #3d2c1e;
+        --scroll-dim: #7a6243;
+        --scroll-link: #1d6a86;
+        --scroll-line: rgba(92, 66, 40, 0.28);
       }
       * { box-sizing: border-box; }
-      html, body { margin: 0; background: var(--bg); color: var(--text); }
-      body { font: 20px/1.45 'Patrick Hand', system-ui, sans-serif; }
-      main { max-width: 720px; margin: 0 auto; padding: 40px 16px 64px; }
-      header { text-align: center; }
-      header img { width: 160px; height: 160px; image-rendering: pixelated; }
-      h1 { margin: 4px 0 0; font-size: 44px; font-weight: normal; }
-      h2 { margin: 0 0 8px; font-size: 26px; font-weight: normal; }
-      p { margin: 0 0 8px; }
-      .muted { color: var(--muted); }
-      a { color: var(--accent); }
-      .primary { margin: 28px 0 8px; text-align: center; }
+      html { background: var(--sky); }
+      body {
+        margin: 0; min-height: 100vh; overflow-x: hidden;
+        font: 20px/1.4 'Patrick Hand', system-ui, sans-serif; color: var(--scroll-ink);
+        background: linear-gradient(90deg, var(--sky-edge) 0%, var(--sky) 32%, var(--sky) 68%, var(--sky-edge) 100%) fixed;
+      }
+      .clouds { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
+      .clouds img { position: absolute; left: 0; top: 0; will-change: transform; image-rendering: pixelated; }
+      main {
+        position: relative; width: min(600px, 100% - 32px); margin: 0 auto; padding: 32px 0 48px;
+        display: flex; flex-direction: column; align-items: center; gap: 20px;
+      }
+
+      /* drawn on the game's art (art.js); until it's there, or if it can't load, a plain look */
+      [data-art] { background: var(--art) center / 100% 100% no-repeat; }
+      [data-art]:active { background-image: var(--art-down, var(--art)); }
+
+      header { display: flex; flex-direction: column; align-items: center; }
+      header img { width: 186px; height: 186px; margin-bottom: -28px; image-rendering: pixelated; }
+      /* the title, on the small blue ribbon: its height exactly, clear of its forked ends */
+      h1 {
+        margin: 0; height: 60px; padding: 0 76px 4px; line-height: 56px; white-space: nowrap;
+        font-size: 36px; font-weight: normal; color: var(--text);
+        text-shadow: 2px 2px 0 var(--ink), -2px 0 0 var(--ink);
+      }
+      .no-art h1 { background: #3b6fa6; border: 2px solid var(--ink); border-radius: 4px; }
+      .on-sky { margin: 0; text-align: center; color: var(--text); text-shadow: 2px 2px 0 var(--ink); }
+      .on-sky a { color: var(--text); }
+      .on-sky a:hover { color: var(--gold); }
+
+      /* a panel on the parchment scroll: clear of its rolled sides and the curls hanging under it */
+      .scroll { width: 100%; padding: 26px 40px 64px; }
+      .no-art .scroll { background: #f1e3b5; border: 2px solid var(--scroll-ink); border-radius: 6px; padding-bottom: 28px; }
+      .scroll h2 { margin: 0 0 8px; font-size: 28px; font-weight: normal; text-align: center; }
+      .scroll p { margin: 0 0 8px; }
+      .scroll .dim { color: var(--scroll-dim); }
+      .scroll a { color: var(--scroll-link); }
+      .scroll ol { margin: 0 0 8px; padding-left: 26px; }
+      .scroll li { margin-bottom: 6px; }
+      .scroll b { font-weight: normal; color: var(--scroll-link); }
+      code { font: 15px/1.4 ui-monospace, Consolas, monospace; overflow-wrap: anywhere; }
+      pre { margin: 6px 0 8px; padding: 8px 12px; overflow-x: auto; background: rgba(92, 66, 40, 0.12); border: 1px solid var(--scroll-line); border-radius: 3px; }
+
+      .get { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
+      .others { display: flex; gap: 20px; justify-content: center; }
+      /* the big blue button: its face on top, its side along the bottom; pressed, the face sinks */
       .button {
-        display: inline-block; padding: 10px 28px; font-size: 24px; text-decoration: none;
-        color: var(--text); background: var(--panel); border: 2px solid var(--edge);
+        display: inline-flex; align-items: center; justify-content: center; height: 52px; min-width: 240px;
+        padding: 0 28px 10px; margin: 4px 0; font-size: 26px; line-height: 1; text-decoration: none;
+        color: var(--text); text-shadow: 2px 2px 0 var(--ink);
       }
-      .button:hover { background: #26393a; }
-      .others { text-align: center; }
-      .others a { margin: 0 8px; }
-      section { margin-top: 32px; padding: 16px 20px; background: var(--panel); border: 2px solid var(--edge); }
-      section.here { border-color: var(--accent); }
-      ol { margin: 0; padding-left: 24px; }
-      li { margin-bottom: 4px; }
-      code {
-        font: 15px/1.4 ui-monospace, Consolas, monospace; background: var(--bg); padding: 2px 6px;
-        overflow-wrap: anywhere;
-      }
-      pre { margin: 6px 0 10px; padding: 8px 10px; background: var(--bg); overflow-x: auto; }
-      pre code { padding: 0; }
-      footer { margin-top: 40px; text-align: center; }
+      .button:hover { filter: brightness(1.08); }
+      .button:active { padding-top: 8px; padding-bottom: 2px; }
+      .no-art .button { background: #3e8fa6; border: 2px solid var(--ink); border-radius: 6px; box-shadow: inset 0 -6px 0 #2b5f78; }
+
+      footer { margin-top: 4px; }
     </style>
   </head>
   <body>
+    <div class="clouds" id="clouds"></div>
     <main>
       <header>
         <img src="logo.png" alt="" />
-        <h1>Pixel ORPG</h1>
-        <p class="muted">The game in a window of its own, for Windows, macOS and Linux.</p>
+        <h1 data-art="ribbon">Pixel ORPG</h1>
       </header>
 
-      <div class="primary"><a class="button" id="get" href="#all">Download</a></div>
-      <p class="others" id="all">
-        <a href="https://github.com/dosmithy/pixel-orpg-desktop/releases/latest/download/PixelORPG-win.exe">Windows</a>
-        <a href="https://github.com/dosmithy/pixel-orpg-desktop/releases/latest/download/PixelORPG-mac.dmg">macOS</a>
-        <a href="https://github.com/dosmithy/pixel-orpg-desktop/releases/latest/download/PixelORPG-linux.AppImage">Linux</a>
-      </p>
-      <p class="others muted">Or play the same game <a href="https://pixel-orpg.online">in your browser</a>.</p>
+      <section class="scroll get" data-art="scroll">
+        <p>The game in a window of its own, for Windows, macOS and Linux.</p>
+        <a class="button" id="get" data-art="button" href="#windows">Download</a>
+        <p class="others">
+          <a href="https://github.com/dosmithy/pixel-orpg-desktop/releases/latest/download/PixelORPG-win.exe">Windows</a>
+          <a href="https://github.com/dosmithy/pixel-orpg-desktop/releases/latest/download/PixelORPG-mac.dmg">macOS</a>
+          <a href="https://github.com/dosmithy/pixel-orpg-desktop/releases/latest/download/PixelORPG-linux.AppImage">Linux</a>
+        </p>
+        <p class="dim">Or play the same game <a href="https://pixel-orpg.online">in your browser</a>.</p>
+      </section>
 
-      <section id="windows">
+      <section class="scroll steps" data-art="scroll" id="windows">
         <h2>Windows</h2>
         <ol>
           <li>Open <code>PixelORPG-win.exe</code>. Your browser might warn you about the download first. Choose <b>Keep</b>.</li>
@@ -75,9 +114,9 @@
         </ol>
       </section>
 
-      <section id="mac">
+      <section class="scroll steps" data-art="scroll" id="mac">
         <h2>macOS</h2>
-        <p class="muted">Apple Silicon (M1 or later) only. On an Intel Mac, play in your browser.</p>
+        <p class="dim">Apple Silicon (M1 or later) only. On an Intel Mac, play in your browser.</p>
         <ol>
           <li>Open <code>PixelORPG-mac.dmg</code> and drag Pixel ORPG into Applications.</li>
           <li>Open it once. macOS says it can't check the app, so click <b>Done</b>.</li>
@@ -87,7 +126,7 @@
         <pre><code>xattr -dr com.apple.quarantine "/Applications/Pixel ORPG.app"</code></pre>
       </section>
 
-      <section id="linux">
+      <section class="scroll steps" data-art="scroll" id="linux">
         <h2>Linux</h2>
         <ol>
           <li>Make the file runnable, then run it:
@@ -104,16 +143,17 @@ sudo apt install libfuse2      # 22.04</code></pre>
         </ol>
       </section>
 
-      <section>
+      <section class="scroll" data-art="scroll">
         <h2>Why the warnings?</h2>
         <p>The app isn't signed, because signing costs money every year, so your computer can't tell who made it. All of its code is <a href="https://github.com/dosmithy/pixel-orpg-desktop">on GitHub</a> if you want to read it.</p>
         <p>The app loads the game from pixel-orpg.online, so you always play the latest version. You'll need to log in once more in the app.</p>
       </section>
 
-      <footer class="muted"><a href="https://pixel-orpg.online">pixel-orpg.online</a></footer>
+      <footer class="on-sky"><a href="https://pixel-orpg.online">pixel-orpg.online</a></footer>
     </main>
+    <script src="art.js"></script>
     <script>
-      // point the big button at this visitor's OS, and bring its steps to the top
+      // point the big button at this visitor's OS, and bring its steps up first
       (() => {
         const base = 'https://github.com/dosmithy/pixel-orpg-desktop/releases/latest/download/';
         const files = { windows: 'PixelORPG-win.exe', mac: 'PixelORPG-mac.dmg', linux: 'PixelORPG-linux.AppImage' };
@@ -127,7 +167,7 @@ sudo apt install libfuse2      # 22.04</code></pre>
         get.textContent = 'Download for ' + names[os];
         const steps = document.getElementById(os);
         steps.classList.add('here');
-        document.getElementById(os === 'windows' ? 'mac' : 'windows').before(steps);
+        document.querySelector('.steps').before(steps);
       })();
     </script>
   </body>
