@@ -110,6 +110,24 @@ function open(): void {
   });
   if (kept?.maximized) win.maximize();
   win.once('ready-to-show', () => win.show());
+
+  // the title bar names the version of the game loaded (its page's <meta name="game-version">), so
+  // a player can tell which one they play; none on the offline page, or a game built before it
+  let version = '';
+  const title = (page: string) => win.setTitle(version ? `${page} · ${version}` : page);
+  win.webContents.on('page-title-updated', (e, page) => {
+    e.preventDefault();
+    title(page);
+  });
+  win.webContents.on('did-finish-load', () => {
+    win.webContents
+      .executeJavaScript(`document.querySelector('meta[name="game-version"]')?.content ?? ''`)
+      .then((v: unknown) => {
+        version = isGame(win.webContents.getURL()) && typeof v === 'string' ? v : '';
+        title(win.webContents.getTitle());
+      })
+      .catch(() => undefined);
+  });
   win.on('close', () => keepBounds(win));
 
   // the site can't be reached (no network, the server down): say so, with a way back
