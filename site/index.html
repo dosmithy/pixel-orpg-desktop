@@ -69,7 +69,8 @@
       .scroll li { margin-bottom: 6px; }
       .scroll b { font-weight: normal; color: var(--scroll-link); }
       code { font: 15px/1.4 ui-monospace, Consolas, monospace; overflow-wrap: anywhere; }
-      pre { margin: 6px 0 8px; padding: 8px 12px; overflow-x: auto; background: rgba(92, 66, 40, 0.12); border: 1px solid var(--scroll-line); border-radius: 3px; }
+      /* a long command wraps rather than scrolling; copied, it's still one line */
+      pre { margin: 6px 0 8px; padding: 8px 12px; white-space: pre-wrap; background: rgba(92, 66, 40, 0.12); border: 1px solid var(--scroll-line); border-radius: 3px; }
 
       .get { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
       .others { display: flex; gap: 20px; justify-content: center; }
