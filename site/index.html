@@ -73,8 +73,9 @@
 
       .get { display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
       .others { display: flex; gap: 20px; justify-content: center; }
-      /* the big blue button: its face on top, its side along the bottom; pressed, the face sinks */
-      .button {
+      /* the big blue button: its face on top, its side along the bottom; pressed, the face sinks
+         (a.button, so it beats the scroll's link colour) */
+      a.button {
         display: inline-flex; align-items: center; justify-content: center; height: 52px; min-width: 240px;
         padding: 0 28px 10px; margin: 4px 0; font-size: 26px; line-height: 1; text-decoration: none;
         color: var(--text); text-shadow: 2px 2px 0 var(--ink);
